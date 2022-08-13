@@ -28,10 +28,12 @@ public abstract class Pessoa implements Serializable {
 	protected Integer id;
 	protected String nome;
 	
-	@Column(unique = true) // Informa que este atributo é unico não haverá outro igual no bd
+	@Column(name="cpf", length=11, unique=true)// Informa que este atributo é unico não haverá outro igual na coluna cpf no bd
 	protected String cpf;
-	@Column(unique = true) // Informa que este atributo é unico não haverá outro igual no bd
+	
+	@Column(name="email", length=50, unique=true) // Informa que este atributo é unico não haverá outro igual no bd
 	protected String email;
+	
 	protected String senha;
 	
 	@ElementCollection(fetch = FetchType.EAGER)
