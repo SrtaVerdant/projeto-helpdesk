@@ -1,20 +1,44 @@
 package com.gabriela.helpdesk.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gabriela.helpdesk.domain.enums.Perfil;
 
-public abstract class Pessoa {
+@Entity //Vai criar uma tabela com o nome Pessoa
+public abstract class Pessoa implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	@Id // Informa que o atributo id é a PK da tabela pessoa
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // deixa o banco responsavel em criar os Id's
 	protected Integer id;
 	protected String nome;
+	
+	@Column(unique = true) // Informa que este atributo é unico não haverá outro igual no bd
 	protected String cpf;
+	@Column(unique = true) // Informa que este atributo é unico não haverá outro igual no bd
 	protected String email;
 	protected String senha;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
 	protected Set<Integer> perfis = new HashSet<>();
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate dataCriacao = LocalDate.now();
 	
 	public Pessoa() {
